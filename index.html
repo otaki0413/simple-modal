@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>モーダルウィンドウで練習</title>
+  <link rel="stylesheet" href="style.css">
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    function Modal(props) {
+      const { show, setShow, content } = props;
+      // モーダルを閉じる
+      const closeModal = () => {
+        setShow(false)
+      };
+      if (props.show) {
+        return (
+          <div id="overlay" onClick={closeModal}>
+            <div id="content" onClick={(e) => e.stopPropagation()}>
+              <p>これがモーダルウィンドウです</p>
+              <p>{content}</p>
+              <p><button onClick={closeModal}>モーダルを閉じる</button></p>
+            </div>
+          </div>
+        )
+      } else {
+        return null;
+      }
+    }
+
+    const { useState } = React
+
+    function App() {
+      const [show, setShow] = useState(false);
+
+      // モーダルを開く
+      const openModal = () => {
+        setShow(true)
+      };
+
+      return (
+        <div>
+          <button onClick={openModal}>クリック</button>
+          <Modal show={show} setShow={setShow} content="Appから内容変更は可能です!"/>
+        </div>
+      )
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'))
+  </script>
+</body>
+</html>
